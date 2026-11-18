@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1c2629">
+<title>決策台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" aria-label="主選單">
+    <div class="brand" aria-hidden="true">
+      <svg viewBox="0 0 40 40" class="brand-mark"><ellipse cx="20" cy="33" rx="14" ry="5"/><ellipse cx="20" cy="24.5" rx="10.5" ry="4.6"/><ellipse cx="20.6" cy="16.6" rx="7.4" ry="3.9"/><ellipse cx="19.8" cy="9.8" rx="4.6" ry="3.1"/></svg>
+      <span class="brand-name"><span id="brand-name">desk</span><b id="brand-title">決策台</b></span>
+    </div>
+    <a class="nav" href="#home" data-view="home"><svg viewBox="0 0 24 24"><path d="M4 12.5 12 5l8 7.5M6.5 10.5V19h11v-8.5"/></svg><span>等你處理</span><em id="nav-count" hidden></em></a>
+    <a class="nav" href="#org" data-view="org"><svg viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="2.5"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="12" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/><path d="M12 8v4M5.5 16v-2.5h13V16M12 12v4"/></svg><span>組織</span></a>
+    <div class="nav-sep"><span>團隊用的</span></div>
+    <a class="nav" href="#board" data-view="board"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="5" height="15" rx="1.2"/><rect x="10" y="4.5" width="5" height="10" rx="1.2"/><rect x="16.5" y="4.5" width="4" height="7" rx="1.2"/></svg><span>看板</span></a>
+    <a class="nav" href="#decisions" data-view="decisions"><svg viewBox="0 0 24 24"><path d="M6 3.5h9l3 3V20.5H6z"/><path d="M9 10h6M9 13.5h6M9 17h3.5"/></svg><span>決定</span></a>
+    <a class="nav" href="#log" data-view="log"><svg viewBox="0 0 24 24"><path d="M7 4v16"/><circle cx="7" cy="7" r="1.6"/><circle cx="7" cy="12" r="1.6"/><circle cx="7" cy="17" r="1.6"/><path d="M11 7h8M11 12h6M11 17h7"/></svg><span>日誌</span></a>
+    <div class="rail-foot" id="rail-foot"></div>
+  </nav>
+
+  <main class="stage" id="stage">
+    <div class="offline" id="status" hidden></div>
+
+    <!-- home -->
+    <section class="view" id="view-home" aria-labelledby="home-h">
+     <div class="home-grid">
+      <div class="home-main">
+      <header class="hero">
+        <svg class="contours" viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M-10 180 C 90 140, 170 200, 270 160 S 470 90, 610 130"/>
+          <path d="M-10 150 C 100 110, 180 170, 280 128 S 470 60, 610 98"/>
+          <path d="M-10 120 C 110 82, 190 140, 290 98 S 470 32, 610 66"/>
+          <path d="M-10 90 C 120 56, 200 108, 300 70 S 470 8, 610 36"/>
+        </svg>
+        <p class="eyebrow" id="hero-date"></p>
+        <h1 id="home-h"><span class="big" id="hero-num">–</span><span class="big-label" id="hero-label">件事等你</span></h1>
+        <p class="hero-sub" id="hero-sub"></p>
+      </header>
+
+      <div class="trail" id="trail" aria-label="組織：點一個人只看他的事"></div>
+      <p class="trail-note" id="trail-note" hidden></p>
+      <div class="filter-note" id="filter-note" hidden><span id="filter-label"></span><button type="button" class="text-btn" id="clear-filter">看全部</button><a class="text-btn" id="filter-talk" href="#org">看它的對話</a></div>
+
+      <div class="asks" id="asks"></div>
+
+      <div class="answered-block" id="answered-block" hidden>
+        <h2 class="section-h">你已經回覆、等對方處理</h2>
+        <div class="asks" id="answered"></div>
+      </div>
+      <details class="history" id="history">
+        <summary><span>已處理</span><em id="count-done"></em></summary>
+        <div class="asks compact" id="done"></div>
+      </details>
+      </div>
+      <aside class="home-side" aria-labelledby="feed-h">
+        <h2 class="side-h" id="feed-h">最近動態</h2>
+        <ol class="feed" id="feed"></ol>
+        <a class="text-btn" href="#log">看全部日誌</a>
+      </aside>
+     </div>
+    </section>
+
+    <!-- org -->
+    <section class="view" id="view-org" hidden aria-labelledby="org-h">
+      <header class="view-head"><h2 id="org-h">組織</h2><p>誰向誰報告、現在在做什麼。點一個人，旁邊就是跟它的對話，可以直接跟它說；亮橘色的人有事等你。</p></header>
+      <details class="org-rules" id="org-rules" hidden><summary>聯絡規則</summary><ol id="org-rules-list"></ol></details>
+      <div class="talk" id="talk-wrap">
+        <div class="talk-list" id="talk-list" aria-label="組織圖"></div>
+        <div class="talk-panel" id="talk-panel"></div>
+      </div>
+      <section class="unplaced" id="unplaced" hidden></section>
+      <div class="file-view" id="file-view" hidden></div>
+    </section>
+
+    <!-- board -->
+    <section class="view" id="view-board" hidden aria-labelledby="board-h">
+      <header class="view-head"><h2 id="board-h">看板</h2><p>一條工作線一張卡。各 session 用 <code>desk board set</code> 自己更新。</p></header>
+      <div class="board" id="board-cols"></div>
+    </section>
+
+    <!-- decisions -->
+    <section class="view" id="view-decisions" hidden aria-labelledby="dec-h">
+      <header class="view-head"><h2 id="dec-h">決定</h2><p>你做過的決定，原話照抄。灰掉的是已被取代的。</p></header>
+      <div class="tools">
+        <input type="search" id="decision-q" placeholder="搜尋編號、標題或原話" aria-label="搜尋決定">
+        <label class="toggle"><input type="checkbox" id="show-superseded"><span>顯示已被取代的</span></label>
+      </div>
+      <ol class="decisions" id="decision-list"></ol>
+    </section>
+
+    <!-- log -->
+    <section class="view" id="view-log" hidden aria-labelledby="log-h">
+      <header class="view-head"><h2 id="log-h">日誌</h2><p>里程碑、決定、事故。提問、你的回覆、看板改動會自動記下來。</p></header>
+      <div class="tools">
+        <input type="search" id="log-q" placeholder="搜尋日誌" aria-label="搜尋日誌">
+        <select id="log-from" aria-label="誰寫的"><option value="">所有人</option></select>
+        <input type="date" id="log-day" aria-label="哪一天">
+      </div>
+      <ol class="timeline" id="log-list"></ol>
+      <button type="button" class="text-btn more" id="log-more" hidden>載入更早的</button>
+    </section>
+  </main>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

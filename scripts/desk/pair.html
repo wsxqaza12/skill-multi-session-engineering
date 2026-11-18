@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>決策台：配對</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="pair-wrap">
+  <h1>決策台</h1>
+  <p class="sub">在電腦的終端機輸入 <span class="mono">desk pair</span>，把出現的 6 位數字填在這裡。</p>
+  <div class="pair-row">
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="7" placeholder="000 000" aria-label="配對碼">
+    <button type="button" class="send" id="go">登入</button>
+  </div>
+  <p class="note" id="msg"></p>
+</div>
+<script src="/pair.js"></script>
+</body>
+</html>
